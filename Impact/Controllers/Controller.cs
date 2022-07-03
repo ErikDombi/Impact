@@ -93,7 +93,7 @@ public class Controller
         return paramsToPass.ToArray();
     }
 
-    internal async Task<Response> HandleRequest(Request request, ServiceProvider serviceProvider)
+    internal Response HandleRequest(Request request, ServiceProvider serviceProvider)
     {
         var logger = serviceProvider.GetService<ILogger>()!;
 

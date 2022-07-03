@@ -18,7 +18,7 @@ internal class Request
         var request = context.Request;
         var uri = request.Url;
 
-        string url = uri.LocalPath;
+        string url = uri!.LocalPath;
         string? paramString = uri.PathAndQuery.Contains("?") ? uri.PathAndQuery.Split("?").LastOrDefault() : null;
         string pathString = url.Split("?").First().TrimEnd('/');
         

@@ -20,7 +20,7 @@ internal class Router
         var type = typeof(ControllerBase);
         controllers = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
-            .Where(p => type.IsAssignableFrom(p) && p != type && p.Namespace.Contains("Controllers"))
+            .Where(p => type.IsAssignableFrom(p) && p != type && (p.Namespace?.Contains("Controllers") ?? false))
             .Select(t => new Controller(t))
             .ToList();
 
@@ -31,7 +31,7 @@ internal class Router
         });
     }
 
-    private Controller? getController(ref Request req)
+    private Controller? GetController(ref Request req)
     {
         var route = req.Route;
         var path = req.Path;
@@ -85,11 +85,11 @@ internal class Router
     public async Task Route(HttpListenerContext context, ServiceProvider serviceProvider)
     {
         var request = context.Request;
-        var uri = request.Url;
+        var uri = request.Url!;
         
         Request req = new Request(context);
 
-        Controller? controller = getController(ref req);
+        Controller? controller = GetController(ref req);
         
         HttpListenerResponse response = context.Response;
         
@@ -104,7 +104,7 @@ internal class Router
 
         try
         {
-            var actionResponse = await controller.HandleRequest(req, serviceProvider);
+            var actionResponse = controller.HandleRequest(req, serviceProvider);
 
             if (actionResponse.StatusCode == 301)
                 response.Redirect(actionResponse.Body);

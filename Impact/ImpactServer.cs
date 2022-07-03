@@ -10,12 +10,12 @@ public class ImpactServer
     internal int Port;
     internal LogLevel LogLevel = LogLevel.Information;
     internal ILogger? Logger;
-    internal List<string> Uris = new();
-    internal ServiceCollection collection = new();
+    internal readonly List<string> Uris = new();
+    internal readonly ServiceCollection Collection = new();
 
-    private Router _router;
+    private Router? _router;
     private readonly HttpListener _listener;
-    private ServiceProvider _services;
+    private ServiceProvider? _services;
     
     internal ImpactServer()
     {
@@ -24,9 +24,9 @@ public class ImpactServer
 
     private ServiceProvider BuildServices()
     {
-        collection.AddSingleton(new Router(Logger!, collection));
+        Collection.AddSingleton(new Router(Logger!, Collection));
         
-        return collection
+        return Collection
             .AddSingleton(Logger!)
             .BuildServiceProvider();
     }
@@ -70,7 +70,7 @@ public class ImpactServer
         {
             var context = _listener.EndGetContext(result);
 
-            _ = _router.Route(context, _services);
+            _ = _router!.Route(context, _services!);
             
             Receive();
         }

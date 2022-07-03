@@ -16,14 +16,14 @@ public class AccountController : ControllerBase
     }
     
     
-    public async Task<Response> Login()
+    public Response Login()
     {
         _logger.LogInformation("Using ImpactServer's logger instance");
         return Ok("Login()");
     }
 
     [HttpPost]
-    public async Task<Response> Register()
+    public Response Register()
     {
         return JSON("This will be returned as a JSON object when using HTTP POST to /api/test/register");
     }

@@ -1,12 +1,11 @@
 ﻿using Impact.Logging;
-using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Impact;
 
 public class ServerBuilder
 {
-    private ImpactServer _server;
+    private readonly ImpactServer _server;
 
     public ServerBuilder()
     {
@@ -42,25 +41,25 @@ public class ServerBuilder
 
     public ServerBuilder AddSingleton<T>() where T : class
     {
-        _server.collection.AddSingleton<T>();
+        _server.Collection.AddSingleton<T>();
         return this;
     }
     
     public ServerBuilder AddSingleton(Type t)
     {
-        _server.collection.AddSingleton(t);
+        _server.Collection.AddSingleton(t);
         return this;
     }
     
     public ServerBuilder AddTransient<T>() where T : class
     {
-        _server.collection.AddTransient<T>();
+        _server.Collection.AddTransient<T>();
         return this;
     }
     
     public ServerBuilder AddTransient(Type t)
     {
-        _server.collection.AddTransient(t);
+        _server.Collection.AddTransient(t);
         return this;
     }
     
